@@ -1,6 +1,7 @@
 package com.vinilaureto.dados
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -18,12 +19,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var settingsActivityLauncher: ActivityResultLauncher<Intent>
     private var contextConfiguration = Configuration()
+    private lateinit var configurationSharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        configurationSharedPreferences = getSharedPreferences(SettingsActivity.Constants.CONFIGURATION_FILE, MODE_PRIVATE)
+        startWithPreviousConfiguration()
 
         randomNumberGenerator = Random(System.currentTimeMillis())
 
@@ -85,5 +90,24 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return false
+    }
+
+    private fun startWithPreviousConfiguration() {
+        val dicesNumber: Int = configurationSharedPreferences.getInt(
+            SettingsActivity.Constants.DICES_NUMBER,
+            SettingsActivity.Constants.VALUE_NOT_FOUND
+        )
+        val facesNumber: Int = configurationSharedPreferences.getInt(
+            SettingsActivity.Constants.FACES_NUMBER,
+            SettingsActivity.Constants.VALUE_NOT_FOUND
+        )
+
+        if (dicesNumber != SettingsActivity.Constants.VALUE_NOT_FOUND) {
+            contextConfiguration.numDices = dicesNumber
+        }
+
+        if (facesNumber != SettingsActivity.Constants.VALUE_NOT_FOUND) {
+            contextConfiguration.numFace = facesNumber
+        }
     }
 }

@@ -13,7 +13,7 @@ import com.vinilaureto.dados.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var activitySettingsBinding: ActivitySettingsBinding
-    private object Constants {
+    object Constants {
         val CONFIGURATION_FILE = "configurations"
         val DICES_NUMBER = "dicesNumber"
         val FACES_NUMBER = "facesNumber"
